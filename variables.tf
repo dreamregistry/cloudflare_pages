@@ -11,6 +11,6 @@ variable "dream_project_dir" {
 
 variable "d1_databases" {
   description = "d1 database name"
-  type = set(string)
-  default = {}
+  type        = set(string)
+  default     = []
 }
