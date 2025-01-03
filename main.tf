@@ -57,7 +57,9 @@ locals {
 
 resource "local_sensitive_file" "dev_vars" {
   filename = "${var.dream_project_dir}/.dev.vars"
-  content  = local.env_vars
+  content  = merge(local.env_vars, {
+    NODE_ENV = "development"
+  })
 }
 
 
