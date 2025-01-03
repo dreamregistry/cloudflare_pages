@@ -47,7 +47,9 @@ locals {
   decrypted_secret_env = {
     for k, v in data.aws_ssm_parameter.secrets_env : k => v.value
   }
-  env = merge(local.non_secret_env, local.decrypted_secret_env)
+  env = merge(local.non_secret_env, local.decrypted_secret_env, {
+    NODE_ENV = "development"
+  })
 
   env_vars = join("\n", values({
     for key, value in local.env :
@@ -57,9 +59,7 @@ locals {
 
 resource "local_sensitive_file" "dev_vars" {
   filename = "${var.dream_project_dir}/.dev.vars"
-  content  = merge(local.env_vars, {
-    NODE_ENV = "development"
-  })
+  content  = local.env_vars
 }
 
 
